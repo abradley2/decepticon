@@ -6,9 +6,7 @@ This is a work in progress. There is quite a bit of ground to cover here.
 
 pub fn increment_state() -> State(Nil, Int) {
   use current_count <- state.and_then(state.get())
-  use _ <- state.and_then(state.put(current_count + 1))
-
-  state.action(Nil)
+  state.put(current_count + 1)
 }
 
 pub fn increment_test() {

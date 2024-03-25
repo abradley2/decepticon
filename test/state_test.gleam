@@ -3,9 +3,7 @@ import decepticon/state.{type State, State}
 
 pub fn increment_state() -> State(Nil, Int) {
   use current_count <- state.and_then(state.get())
-  use _ <- state.and_then(state.put(current_count + 1))
-
-  state.action(Nil)
+  state.put(current_count + 1)
 }
 
 pub fn increment_test() {
