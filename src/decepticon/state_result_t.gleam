@@ -21,6 +21,14 @@ pub fn error_state(state: State(err, s)) -> StateResult(a, s, err) {
   StateResult(run: state.map(state, fn(err) { Error(err) }))
 }
 
+pub fn get() -> StateResult(s, s, err) {
+  ok_state(state.get())
+}
+
+pub fn put(s) -> StateResult(Nil, s, err) {
+  ok_state(state.put(s))
+}
+
 pub fn map(
   over state_result: StateResult(a, s, err),
   with map_fn: fn(a) -> b,
@@ -36,13 +44,11 @@ pub fn and_map(
   prev: StateResult(fn(a) -> b, s, err),
   next: StateResult(a, s, err),
 ) -> StateResult(b, s, err) {
-  let state_result_prev = prev.run
-  let state_result_next = next.run
   let combined =
-    state.and_then(state_result_prev, fn(result_fn) {
+    state.and_then(prev.run, fn(result_fn) {
       case result_fn {
         Ok(map_fn) -> {
-          state.map(state_result_next, fn(arg) { result.map(arg, map_fn) })
+          state.map(next.run, fn(arg) { result.map(arg, map_fn) })
         }
         Error(err) -> state.action(Error(err))
       }

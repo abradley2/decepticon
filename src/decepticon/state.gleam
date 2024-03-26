@@ -1,5 +1,3 @@
-import gleam/io
-
 pub type State(a, s) {
   State(run: fn(s) -> #(a, s))
 }
