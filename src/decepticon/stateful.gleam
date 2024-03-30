@@ -25,7 +25,7 @@ pub fn map(state: State(a, s), f: fn(a) -> b) -> State(b, s) {
   })
 }
 
-pub fn and_map(prev: State(fn(a) -> b, s), next: State(a, s)) -> State(b, s) {
+pub fn apply(prev: State(fn(a) -> b, s), next: State(a, s)) -> State(b, s) {
   State(fn(s) {
     let #(f, s) = prev.run(s)
     let #(a, s) = next.run(s)
@@ -33,7 +33,7 @@ pub fn and_map(prev: State(fn(a) -> b, s), next: State(a, s)) -> State(b, s) {
   })
 }
 
-pub fn and_then(state: State(a, s), f: fn(a) -> State(b, s)) -> State(b, s) {
+pub fn do(state: State(a, s), f: fn(a) -> State(b, s)) -> State(b, s) {
   State(fn(s) {
     let #(a, s) = state.run(s)
     f(a).run(s)
