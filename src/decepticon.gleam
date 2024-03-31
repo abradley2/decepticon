@@ -8,30 +8,30 @@ pub type StateResult(a, s, err) {
 }
 
 /// Given a `StateResult`, return the `Result` of the last executed action.
-pub fn eval(st: StateResult(a, s, err), s: s) -> Result(a, err) {
-  state.eval(st.run, s)
+pub fn eval(state_result: StateResult(a, s, err), s: s) -> Result(a, err) {
+  state.eval(state_result.run, s)
 }
 
 /// Given a `StateResult`, return the final version of the internal state.
-pub fn exec(st: StateResult(a, s, err), s: s) -> s {
-  state.exec(st.run, s)
+pub fn exec(state_result: StateResult(a, s, err), s: s) -> s {
+  state.exec(state_result.run, s)
 }
 
 /// Lift a `Result` into the `StateResult` type. Useful for when you have a
 /// non-stateful action that is simply a `Result` and wish to weave it in 
 /// as a `use` statement
-pub fn try(a) {
-  StateResult(run: state.action(a))
+pub fn try(result_value: Result(a, err)) {
+  StateResult(run: state.action(result_value))
 }
 
 /// Lift a `Result`'s value argument into a `StateResult`
-pub fn action(a) {
-  StateResult(run: state.action(Ok(a)))
+pub fn action(action_value: a) {
+  StateResult(run: state.action(Ok(action_value)))
 }
 
 /// Lift a `Result`'s error argument into a `StateResult`
-pub fn error(err) {
-  StateResult(run: state.action(Error(err)))
+pub fn error(error: err) {
+  StateResult(run: state.action(Error(error)))
 }
 
 /// Lift a `State` type into a `StateResult` type. Wrapping it's
@@ -52,8 +52,8 @@ pub fn get() -> StateResult(s, s, err) {
 }
 
 /// Set the current value of state
-pub fn put(s) -> StateResult(Nil, s, err) {
-  ok_state(state.put(s))
+pub fn put(state_value: s) -> StateResult(Nil, s, err) {
+  ok_state(state.put(state_value))
 }
 
 /// Map over the action type of a `StateResult`
