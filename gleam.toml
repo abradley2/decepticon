@@ -1,7 +1,7 @@
 name = "decepticon"
-version = "1.0.0"
+version = "1.0.1"
 
-description = "A Gleam library"
+description = "StateT/Result in Gleam"
 licences = ["ISC"]
 repository = { type = "github", user = "abradley2", repo = "decepticon" }
 
